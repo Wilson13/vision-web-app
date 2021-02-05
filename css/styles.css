@@ -1,0 +1,7 @@
+/* @font-face {
+  font-family: my-font;
+  src: url("ttps://fonts.googleapis.com/css2?family=Noto+Sans+SC:300,400,500")
+    format("woff"); */
+/* } */
+
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500&family=Roboto:wght@300;400;500");

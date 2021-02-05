@@ -1,15 +1,15 @@
-import Link from 'next/link'
-import Layout from '../components/Layout'
+import React from "react";
+import DropFileLayout from "../components/DropZoneLayout";
 
 const IndexPage = () => (
-  <Layout title="Home | Next.js + TypeScript Example">
-    <h1>Hello Next.js 👋</h1>
-    <p>
-      <Link href="/about">
-        <a>About</a>
-      </Link>
-    </p>
-  </Layout>
-)
+  <DropFileLayout />
+  
+  )
+;
+
+  {/* <Box flex align='center' justify='center'>
+      <Text>Test</Text>
+    </Box>
+  </DropFileLayout> */}
 
 export default IndexPage
