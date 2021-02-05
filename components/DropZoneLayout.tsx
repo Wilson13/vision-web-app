@@ -6,7 +6,7 @@ import { Hide, View, Gallery } from 'grommet-icons';
 import { grommet, ThemeType } from 'grommet/themes';
 import { deepMerge } from 'grommet/utils';
 import Dropzone, {FileWithPath, useDropzone} from 'react-dropzone';
-import { detectObject, drawBoundingBoxes } from "../src/detection";
+import { detectObject } from "../src/detection";
 
 // Configure Firebase.
 const config = {
@@ -84,6 +84,7 @@ const Layout = () => {
   const [value, setValue] = useState('');
   const [reveal, setReveal] = useState(false);
   const [detectedObjects, setDetectedObjects] = useState<ResponseObj[]>([])
+  // const [ouputBuffer, setOutputBuffer] = useState<Buffer>(Buffer.alloc(0));
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => setValue(event.target.value);
   
   // const [files, setFiles] = useState<File[]>([]);
@@ -99,9 +100,10 @@ const Layout = () => {
           // load image to get width and height
           const img = new Image();
           var objectUrl = URL.createObjectURL(uploadedFiles[0]);
-          img.onload = function () {
-              const imageSize: ImageSize = {width: img.width, height: img.height};
-              const ouputBuffer = drawBoundingBoxes(objectUrl, imageSize, response.data);
+          img.onload = async function () {
+              // const imageSize: ImageSize = {width: img.width, height: img.height};
+              // const output = await drawBoundingBoxes(objectUrl, imageSize, response.data);
+              // setOutputBuffer(output);
               URL.revokeObjectURL(objectUrl);
           };
           img.src = objectUrl;
@@ -164,7 +166,7 @@ const Layout = () => {
       </Grommet>
     );
   } else {
-    return (   
+    return (  
       <Grommet theme={deepMerge(grommet, theme)} full>
         <Box fill align="center" justify="center">
           <Dropzone>
@@ -195,9 +197,13 @@ const Layout = () => {
             )}
           </Dropzone>
             <Box width="large" justify="center" height="medium" margin={{top: "small"}}>
+              {/* <Img
+                fit="contain"
+                src={ouputBuffer.byteLength > 0 ? URL.createObjectURL(acceptedFiles[0]) : ""}
+              /> */}
               <Img
                 fit="contain"
-                src={acceptedFiles.length > 0 ? URL.createObjectURL(acceptedFiles[0]): "//v2.grommet.io/assets/Wilderpeople_Ricky.jpg"}
+                src={acceptedFiles.length > 0 ? URL.createObjectURL(acceptedFiles[0]) : ""}
               />
             </Box>
           </Box>

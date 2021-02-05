@@ -69,28 +69,33 @@ export async function drawBoundingBoxes(
     );
   });
 
-  const image = Sharp(imageURL);
-  image.metadata().then(async (metadata: { height: string; width: string; }) => {
-      let svgElement = `<svg height="` +
-        metadata.height +
-        `" width="` +
-        metadata.width +
-        `" viewbox="0 0 ` +
-        metadata.width +
-        ` ` +
-        metadata.height +
-        `" xmlns="http://www.w3.org/2000/svg">`;
-      svgElement += svgRectangles.join();
-      svgElement += `</svg>`;
+  try {
+    const image = Sharp(imageURL);
+    const metadata = await image.metadata();
+  } catch (err) {
+    console.log(err);
+  }
 
-      // The SVG string we have crafted above needs to be converted into a Buffer object
-      // so that we can use Sharp to overlay it with our image buffer
-      const svgElementBuffer = new Buffer(svgElement);
+  // let svgElement =
+  //   `<svg height="` +
+  //   metadata.height +
+  //   `" width="` +
+  //   metadata.width +
+  //   `" viewbox="0 0 ` +
+  //   metadata.width +
+  //   ` ` +
+  //   metadata.height +
+  //   `" xmlns="http://www.w3.org/2000/svg">`;
+  // svgElement += svgRectangles.join();
+  // svgElement += `</svg>`;
 
-      // Create a random file name for the rendered image file we will create
-      // Note we are assuming all images being passed in are JPEGs to keep things simple
-      // Now we create a new image buffer combining the original image buffer with the buffer we generated
-      // with our SVG bounding box rectangles
-      await image.composite([{ input: svgElementBuffer }]).toBuffer();
-    });
+  // The SVG string we have crafted above needs to be converted into a Buffer object
+  // so that we can use Sharp to overlay it with our image buffer
+  // const svgElementBuffer = new Buffer(svgElement);
+
+  // Create a random file name for the rendered image file we will create
+  // Note we are assuming all images being passed in are JPEGs to keep things simple
+  // Now we create a new image buffer combining the original image buffer with the buffer we generated
+  // with our SVG bounding box rectangles
+  // return await image.composite([{ input: svgElementBuffer }]).toBuffer();
 }
