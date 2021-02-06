@@ -600,11 +600,6 @@
   "resolved" "https://registry.npmjs.org/@types/long/-/long-4.0.1.tgz"
   "version" "4.0.1"
 
-"@types/node@*", "@types/node@^14.14.22":
-  "integrity" "sha512-g+f/qj/cNcqKkc3tFqlXOYjrmZA+jNBiDzbP3kH+B+otKFqAdPgVTGP1IeKRdMml/aE69as5S4FqtxAbl+LaMw=="
-  "resolved" "https://registry.npmjs.org/@types/node/-/node-14.14.22.tgz"
-  "version" "14.14.22"
-
 "@types/node@^12.12.47":
   "integrity" "sha512-lowukE3GUI+VSYSu6VcBXl14d61Rp5hA1D+61r16qnwC0lYNSqdxcvRh0pswejorHfS+HgwBasM8jLXz0/aOsw=="
   "resolved" "https://registry.npmjs.org/@types/node/-/node-12.19.15.tgz"
@@ -614,6 +609,11 @@
   "integrity" "sha512-eKaRo87lu1yAXrzEJl0zcJxfUMDT5/mZalFyOkT44rnQps41eS2pfWzbaulSPpQLFNy29bFqn+Y5lOTL8ATlEQ=="
   "resolved" "https://registry.npmjs.org/@types/node/-/node-13.13.40.tgz"
   "version" "13.13.40"
+
+"@types/node@^14.14.22":
+  "integrity" "sha512-g+f/qj/cNcqKkc3tFqlXOYjrmZA+jNBiDzbP3kH+B+otKFqAdPgVTGP1IeKRdMml/aE69as5S4FqtxAbl+LaMw=="
+  "resolved" "https://registry.npmjs.org/@types/node/-/node-14.14.22.tgz"
+  "version" "14.14.22"
 
 "@types/prop-types@*":
   "integrity" "sha512-KfRL3PuHmqQLOG+2tGpRO26Ctg+Cq1E01D2DMriKEATHgWLfeNDmq9e29Q9WIky0dQ3NPkd1mzYH8Lm936Z9qw=="
@@ -641,13 +641,6 @@
   dependencies:
     "@types/prop-types" "*"
     "csstype" "^3.0.2"
-
-"@types/sharp@^0.27.1":
-  "integrity" "sha512-RbYmyPjDUzi3lI9Qm68I+82I+DNOe/jW5w+EC1FvpT/f2TYXDG6mmPZQQohy98ufq+u6OB6pQkqpcNMDxzVclg=="
-  "resolved" "https://registry.npmjs.org/@types/sharp/-/sharp-0.27.1.tgz"
-  "version" "0.27.1"
-  dependencies:
-    "@types/node" "*"
 
 "@webassemblyjs/ast@1.9.0":
   "integrity" "sha512-C6wW5L+b7ogSDVqymbkkvuW9kruN//YisMED04xzeBBqjHa2FYnmvOlS6Xj68xWQRgWvI9cIglsjFowH/RJyEA=="
@@ -4320,7 +4313,7 @@
   "resolved" "https://registry.npmjs.org/shallowequal/-/shallowequal-1.1.0.tgz"
   "version" "1.1.0"
 
-"sharp@^0.26.3", "sharp@0.26.3":
+"sharp@0.26.3":
   "integrity" "sha512-NdEJ9S6AMr8Px0zgtFo1TJjMK/ROMU92MkDtYn2BBrDjIx3YfH9TUyGdzPC+I/L619GeYQc690Vbaxc5FPCCWg=="
   "resolved" "https://registry.npmjs.org/sharp/-/sharp-0.26.3.tgz"
   "version" "0.26.3"

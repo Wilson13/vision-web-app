@@ -58,19 +58,14 @@ const theme: ThemeType = {
   },
 };
 
-
-// type Props = {
-//   children?: ReactNode
-// }
-
-export type ImageSize = {
-  width: number,
-  height: number
-}
-
 export type Vertex = {
   x: number;
   y: number;
+};
+
+export type JSONResponse = {
+  detectRes: ResponseObj[];
+  url: string;
 };
 
 export type ResponseObj = {
@@ -83,7 +78,7 @@ const Layout = () => {
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [value, setValue] = useState('');
   const [reveal, setReveal] = useState(false);
-  const [detectedObjects, setDetectedObjects] = useState<ResponseObj[]>([])
+  const [apiResponse, setApiResponse] = useState<JSONResponse>({detectRes: [], url: ""})
   // const [ouputBuffer, setOutputBuffer] = useState<Buffer>(Buffer.alloc(0));
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => setValue(event.target.value);
   
@@ -94,16 +89,13 @@ const Layout = () => {
       maxFiles:1,
       onDrop: async uploadedFiles => {
         try {
-          const response = await detectObject(uploadedFiles[0])
-          setDetectedObjects(response.data);
+          const data = await detectObject(uploadedFiles[0])
+          setApiResponse(data);
 
           // load image to get width and height
           const img = new Image();
           var objectUrl = URL.createObjectURL(uploadedFiles[0]);
           img.onload = async function () {
-              // const imageSize: ImageSize = {width: img.width, height: img.height};
-              // const output = await drawBoundingBoxes(objectUrl, imageSize, response.data);
-              // setOutputBuffer(output);
               URL.revokeObjectURL(objectUrl);
           };
           img.src = objectUrl;
@@ -177,11 +169,11 @@ const Layout = () => {
                   <Box width="large" justify="center" height=" medium" alignSelf="center" align="center" border={{color: '#4C3FBC', size: 'medium', style: "dashed" }} background="#EFEEF0">
                     <Box direction="column" align="center">
                       <Gallery color="#4C3FBC" size="large" />
-                      <Text color="#4C3FBC" margin={{ top: "medium" }}>Drag 'n' drop image here, or click to select image</Text>
+                      <Text color="#4C3FBC" margin={{ top: "medium" }}>Drag 'n' drop image here, or click to select image (max 600kb)</Text>
                       <aside>
                         <ul>{files}</ul>
                         <Box height="small" >
-                          <InfiniteScroll items={detectedObjects}>
+                          <InfiniteScroll items={apiResponse.detectRes}>
                           {(item: ResponseObj) => (
                             <Box border={{ side: 'bottom' }} pad="small" justify="center">
                               <Text>{item.name}</Text>
@@ -197,14 +189,15 @@ const Layout = () => {
             )}
           </Dropzone>
             <Box width="large" justify="center" height="medium" margin={{top: "small"}}>
-              {/* <Img
-                fit="contain"
-                src={ouputBuffer.byteLength > 0 ? URL.createObjectURL(acceptedFiles[0]) : ""}
-              /> */}
-              <Img
+              { apiResponse.url !== "" ? <Img
+                    fit="contain"
+                    src={apiResponse.url}
+                  />: "" }
+              { apiResponse.url == "" ? <Img
                 fit="contain"
                 src={acceptedFiles.length > 0 ? URL.createObjectURL(acceptedFiles[0]) : ""}
-              />
+              />: ""
+              }
             </Box>
           </Box>
       </Grommet>

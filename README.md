@@ -1,4 +1,4 @@
-# Object Detection Example
+# Google Cloud Vision API - Object Detection
 
 ## Name
 
@@ -12,4 +12,5 @@ Separately, it is powered by a backend application called vision-backend-app tha
 
 # Notes
 
-Still requires some refactoring and code clean up.
+- Wanted to perform the drawing of bounding boxes in front end (Static Site using NextJS for SSG) but couldn't do it due to Sharp library dependency on fs, which is only available in NodeJS.
+- Still requires some refactoring and code clean up.
