@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import firebase from 'firebase';
-import { Box, Button, FormField, Grommet, Heading, Image as Img, InfiniteScroll, ResponsiveContext, Text, TextInput } from 'grommet';
-import { Hide, View, Gallery } from 'grommet-icons';
+import { Box, Button, FormField, Grommet, Header, Heading, Image as Img, InfiniteScroll, ResponsiveContext, Text, TextInput } from 'grommet';
+import { Hide, View, Gallery, Power } from 'grommet-icons';
 import { grommet, ThemeType } from 'grommet/themes';
 import { deepMerge } from 'grommet/utils';
 import Dropzone, {FileWithPath, useDropzone} from 'react-dropzone';
@@ -39,21 +39,31 @@ const uiConfig = {
 // React.useLayoutEffect = React.useEffect;
 const theme: ThemeType = {
   global: {
-    // colors: {
-    //   brand: '#228BE6',
-    // },
+    colors: {
+      brand: '#4C3FBC',
+    },
     font: {
-      family: 'Roboto',
+      family: 'Noto Sans SC',
       size: '18px',
       height: '20px',
       // weight: 400,
     },
+    focus: {
+      border: {
+      color: 'transparent',
+      }
+    }
   },
   formField: {
     label: {
       size: 'small',
       margin: { vertical: '0px', horizontal: '0px' },
       weight: 600,
+    }
+  },
+  text: {
+    medium: {
+      size: '16px'
     }
   },
 };
@@ -74,15 +84,18 @@ export type ResponseObj = {
   bounds: Vertex[];
 };
 
+const signout = async () => {
+  await firebase.auth().signOut();
+};
+
 const Layout = () => {
+  const [firebaseUser, setFirebaseUser] = useState<firebase.User>();
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [value, setValue] = useState('');
   const [reveal, setReveal] = useState(false);
   const [apiResponse, setApiResponse] = useState<JSONResponse>({detectRes: [], url: ""})
-  // const [ouputBuffer, setOutputBuffer] = useState<Buffer>(Buffer.alloc(0));
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => setValue(event.target.value);
   
-  // const [files, setFiles] = useState<File[]>([]);
   const {acceptedFiles, getRootProps, getInputProps} 
     = useDropzone({
       accept: 'image/jpeg, image/png', 
@@ -115,6 +128,7 @@ const Layout = () => {
   useEffect(() => {
     const unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
       setIsSignedIn(!!user);
+      setFirebaseUser(user || undefined);
     });
     return () => unregisterAuthObserver(); // Make sure we un-register Firebase observers when the component unmounts.
   }, []);
@@ -160,34 +174,48 @@ const Layout = () => {
   } else {
     return (  
       <Grommet theme={deepMerge(grommet, theme)} full>
-        <Box fill align="center" justify="center">
-          <Dropzone>
-            {() => (
-              <section>
-                 <div {...getRootProps({className: 'dropzone'})}>
-                  <input {...getInputProps()} />
-                  <Box width="large" justify="center" height=" medium" alignSelf="center" align="center" border={{color: '#4C3FBC', size: 'medium', style: "dashed" }} background="#EFEEF0">
-                    <Box direction="column" align="center">
-                      <Gallery color="#4C3FBC" size="large" />
-                      <Text color="#4C3FBC" margin={{ top: "medium" }}>Drag 'n' drop image here, or click to select image (max 600kb)</Text>
-                      <aside>
-                        <ul>{files}</ul>
-                        <Box height="small" >
-                          <InfiniteScroll items={apiResponse.detectRes}>
-                          {(item: ResponseObj) => (
-                            <Box border={{ side: 'bottom' }} pad="small" justify="center">
-                              <Text>{item.name}</Text>
-                            </Box>
-                          )}
-                        </InfiniteScroll>
-                        </Box>
-                      </aside>
+        <Box fill>
+          <Header background="brand" justify="end" pad="xsmall">
+            <Box width="xsmall" pad="xsmall" height="xxsmall" direction="row">
+              <Img src={firebaseUser?.photoURL || ""} />  
+              <Text alignSelf="center" margin={{left: "small"}}>{firebaseUser?.displayName}</Text> 
+            </Box>
+            <Button 
+              icon={<Power />} 
+              color="transparent" 
+              label="Logout" 
+              hoverIndicator 
+              onClick={signout}
+            />
+          </Header>
+          <Box fill align="center" justify="center">
+            <Dropzone>
+              {() => (
+                <section>
+                  <div {...getRootProps({className: 'dropzone'})}>
+                    <input {...getInputProps()} />
+                    <Box width="large" justify="center" height=" medium" alignSelf="center" align="center" border={{color: 'brand', size: 'medium', style: "dashed" }} background="#EFEEF0">
+                      <Box direction="column" align="center" pad="small">
+                        <Gallery color="brand" size="large" />
+                        <Text color="brand" margin={{ top: "medium" }}>Drag 'n' drop image here, or click to select image (max 600kb)</Text>
+                        <aside>
+                          <ul>{files}</ul>
+                          <Box height="small" >
+                            <InfiniteScroll items={apiResponse.detectRes}>
+                            {(item: ResponseObj) => (
+                              <Box border={{ side: 'bottom' }} pad="small" justify="center">
+                                <Text>{item.name}</Text>
+                              </Box>
+                            )}
+                          </InfiniteScroll>
+                          </Box>
+                        </aside>
+                      </Box>
                     </Box>
-                  </Box>
-                </div>
-              </section>
-            )}
-          </Dropzone>
+                  </div>
+                </section>
+              )}
+            </Dropzone>
             <Box width="large" justify="center" height="medium" margin={{top: "small"}}>
               { apiResponse.url !== "" ? <Img
                     fit="contain"
@@ -200,6 +228,7 @@ const Layout = () => {
               }
             </Box>
           </Box>
+        </Box>
       </Grommet>
     )}
   }
