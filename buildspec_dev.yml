@@ -1,0 +1,15 @@
+version: 0.2
+
+phases:
+  build:
+    commands:
+      - echo deployment started `date`
+      - npm run build
+  post_build:
+    commands:
+      - echo post build completed on `date`
+      - aws s3 sync out s3://testing-temporary-ft
+
+cache:
+  paths:
+    - "./node_modules/**/*"
