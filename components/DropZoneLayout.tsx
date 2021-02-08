@@ -3,7 +3,7 @@ import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import firebase from 'firebase';
 import { Box, Button, FormField, Grommet, Header, Heading, Image as Img, InfiniteScroll, ResponsiveContext, Text, TextInput } from 'grommet';
 import { Hide, View, Gallery, Power } from 'grommet-icons';
-import { grommet, ThemeType } from 'grommet/themes';
+import { grommet } from 'grommet/themes';
 import { deepMerge } from 'grommet/utils';
 import Dropzone, {FileWithPath, useDropzone} from 'react-dropzone';
 import { detectObject } from "../src/detection";
@@ -37,7 +37,7 @@ const uiConfig = {
 };
 
 // React.useLayoutEffect = React.useEffect;
-const theme: ThemeType = {
+const theme = {
   global: {
     colors: {
       brand: '#4C3FBC',
